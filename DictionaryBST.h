@@ -5,7 +5,7 @@
 
 #ifndef DICTIONARY_BST_H
 #define DICTIONARY_BST_H
-
+#include <set>
 #include <string>
 
 /**
@@ -32,7 +32,7 @@ public:
   ~DictionaryBST();
 
 private:
-  // Add your own data members and methods here
+  std::set<std::string> BST;
 };
 
 #endif // DICTIONARY_BST_H
