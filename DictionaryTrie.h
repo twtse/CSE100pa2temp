@@ -10,6 +10,51 @@
 #include <string>
 
 /**
+ *  This class represents the actual node conceptually that each contains
+ *  an array of small nodes. 
+ */
+class Node
+{
+public:
+  Node();
+
+  /*
+   * Calculates using an offset to see which index in our container array
+   * reflects the char c. Then checks if the small node in that index connects
+   * to a bigNode.
+   */
+  Node getNext(char c); 
+
+  ~Node();
+  
+private:
+  
+  /* The container in which each index represents a letter in the alphabet */
+  Node* container[26]; //all the letters in the alphabet
+  
+  int frequency;
+
+  bool word;
+}
+
+/**
+ *  This class represents each indexes inside the array
+ *  of all the characters in the alphabet.
+ 
+class smallNode
+{
+public:
+  smallNode();
+
+private:
+  bigNode * next; //each index (which is a character) points to the next
+                  //big node which contains all the possible characters that
+                  //will follow our index.
+  int frequency;
+}
+*/
+
+/**
  *  The class for a dictionary ADT, implemented as a trie
  *  You may implement this class as either a mulit-way trie
  *  or a ternary search trie, but you must use one or the other.
@@ -48,7 +93,8 @@ public:
   ~DictionaryTrie();
 
 private:
-  // Add your own data members and methods here
+  Node root;
+
 };
 
 #endif // DICTIONARY_TRIE_H
