@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+#define ALPHABET_SPACE 27
+
 /**
  *  This class represents the actual node conceptually that each contains
  *  an array of small nodes. 
@@ -28,7 +30,7 @@ public:
   ~Node();
   
   /* The container in which each index represents a letter in the alphabet */
-  Node* container[26]; //all the letters in the alphabet
+  Node* container[ALPHABET_SPACE]; //all the letters in the alphabet & space
   
   int frequency;
 

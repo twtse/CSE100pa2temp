@@ -1,18 +1,34 @@
 #include "util.h"
 #include "DictionaryTrie.h"
 #include "string"
+#include <iostream>
+#include <cstdlib>
 
-#define OFF_SET 97
-
+#define OFF_SET_MINUS_ONE 96
+#define ALPHABET_SPACE 27
 Node::Node()
 {
   this->word = false;
   this->frequency = 0;
+  for(int i = 0; i < ALPHABET_SPACE; i++)
+  {
+    container[i] = NULL;
+  }
 }
 
 Node* Node::getNext(char c)
 {
-  int index = c - OFF_SET; //97 is the OFF_SET
+  int index;
+
+  if(c == ' ' || c == 32) //just be sure it reads space or space ASCII
+  {
+    index = 0;
+  }
+  else
+  {
+    index = c - OFF_SET_MINUS_ONE; //96 is the offset bc saving 0 for space
+  }
+
   Node* current = this->container[index];
 
   //go to the array of the node that calls get next, and see if there is a
@@ -57,20 +73,32 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //from beginning to end
   for(wordind = 0; wordind < word.length(); wordind++)
   {
+std::cout << word[wordind] << " is the charcter we're looking at. " << std::endl;
     //first run we are at root node, which is created in constructor
     //see if there is a nodeptr at our current node's array at index 
     //representing *it
     if(current->getNext( word[wordind] ) == NULL)
     {
+std::cout << "The character doesn't exist yet" << std::endl;
       //if there isn't one, make a new node and leave a pointer in the array
       //at that index pointing to our new node
-      int index = word[wordind] - OFF_SET;
+      int index;
+      if(word[wordind] == ' ')
+      {
+        index = 0;
+      }
+      else
+      {
+        index = word[wordind] - OFF_SET_MINUS_ONE;
+      }
       current->container[index] = new Node();
       current = current->container[index];
+std::cout << word[wordind] << " is inserted at " << index << std::endl;
     }
     else
     {
       //if that letter already exist, move to it, update current
+std::cout << "CHARACTER EXISTS, TRAVERSE!" << std::endl;
       current = current->getNext(word[wordind]);
     }
   }
@@ -81,7 +109,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   current->word = true;
   current->frequency = freq;
 
-  return false;
+  return true;
 }
 
 /* Return true if word is in the dictionary, and false otherwise */
