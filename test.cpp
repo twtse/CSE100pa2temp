@@ -140,5 +140,36 @@ int main(int argc, char** argv)
         }
       cout <<endl;
    }   
+  
+
+  cout << "Testing similar insert input" << endl;
+  
+  wit=wordsf.begin();
+  wen=wordsf.end();
+  for(; wit != wen; ++wit)
+    {
+      cout << "Inserting: \"" << *wit << "\"... ";
+      t_bst = d_bst.insert(*wit);
+      t_ht = d_ht.insert(*wit);
+      tt = dt.insert(*wit, 1);
+      
+      if(!t_bst)
+        {
+          cout << "failed for DictionaryBST... ";
+        }
+      if(!t_ht)
+        {
+          cout << "failed for DictionaryHashset... ";
+        }
+      if(!tt)
+        {
+          cout << "failed for DictionaryTrie... ";
+        }
+      if(t_bst && t_ht && tt)
+        {
+          cout << "PASSED! :D ";
+        }
+      cout << endl;
+    }
   return 0;
 }
