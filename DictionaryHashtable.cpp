@@ -10,8 +10,8 @@ DictionaryHashtable::DictionaryHashtable()
 /* Insert a word into the dictionary. */
 bool DictionaryHashtable::insert(std::string word)
 {
-  auto kms = inner.insert(word);
-  return kms.second;
+  bool kms = inner.insert(word).second;
+  return kms;
 }
 
 /* Return true if word is in the dictionary, and false otherwise */
