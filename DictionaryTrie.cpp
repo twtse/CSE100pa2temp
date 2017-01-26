@@ -1,19 +1,19 @@
 #include "util.h"
 #include "DictionaryTrie.h"
+#include "string"
 
 #define OFF_SET 97
 
-DictionaryTrie::Node()
+Node::Node()
 {
-  bool word = false;
-  int frequency = -1;
-  Node.container = new Node[26]();
+  this->word = false;
+  this->frequency = 0;
 }
 
-Node* DictionaryTrie::getNext(char c)
+Node* Node::getNext(char c)
 {
   int index = c - OFF_SET; //97 is the OFF_SET
-  Node* current = this.container[index];
+  Node* current = this->container[index];
 
   //go to the array of the node that calls get next, and see if there is a
   //non-null pointer at the index representing char c.
@@ -27,10 +27,7 @@ Node* DictionaryTrie::getNext(char c)
   }
 }   
 
-DictionaryTrie::~Node()
-{
-  delete [] container;
-}
+Node::~Node(){}
 
 /* Create a new Dictionary that uses a Trie back end */
 DictionaryTrie::DictionaryTrie() 
@@ -45,44 +42,43 @@ DictionaryTrie::DictionaryTrie()
 bool DictionaryTrie::insert(std::string word, unsigned int freq)
 {
   //covers the two false conditions
-  if(this.find(word) == true)
+  if(find(word) == true)
   {
     return false;
   }
-  if(word.empty() == true)
+  if(word.length() == 0)
   {
     return false;
   }
 
-  //iterator allows us to traverse through a string
-  string::iterator it;
+  unsigned int wordind = 0; //because str.length() returns unsigned size
   Node* current = root;
 
   //from beginning to end
-  for(it = word.begin(); it < str.end(); it++)
+  for(wordind = 0; wordind < word.length(); wordind++)
   {
     //first run we are at root node, which is created in constructor
     //see if there is a nodeptr at our current node's array at index 
     //representing *it
-    if(current.getNext(*it) == NULL)
+    if(current->getNext( word[wordind] ) == NULL)
     {
       //if there isn't one, make a new node and leave a pointer in the array
       //at that index pointing to our new node
-      int index = *it - OFF_SET;
-      current.container[index] = new Node();
-      current = current.container[index];
+      int index = word[wordind] - OFF_SET;
+      current->container[index] = new Node();
+      current = current->container[index];
     }
     else
     {
       //if that letter already exist, move to it, update current
-      current = current.getNext(*it);
+      current = current->getNext(word[wordind]);
     }
   }
   //after u have inserted all the characters, need a word node with frequency
   //at this point, current should be a pointer at the index representing the 
   //last  character. The node current points to should have default 
   //initialization. Mark this as word node
-  current->word == true;
+  current->word = true;
   current->frequency = freq;
 
   return false;
@@ -91,7 +87,20 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
 /* Return true if word is in the dictionary, and false otherwise */
 bool DictionaryTrie::find(std::string word) const
 {
-  return false;
+  unsigned int inting;
+  Node* current = root;
+  for(inting = 0; inting < word.length(); inting++)
+  {
+    if(current->getNext(word[inting]) == NULL)
+      return false;
+    else
+      current = current->getNext(word[inting]);
+  }
+
+  if(current->word == true)
+    return true;
+  else
+    return false;
 }
 
 /* Return up to num_completions of the most frequent completions
@@ -111,4 +120,7 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
 }
 
 /* Destructor */
-DictionaryTrie::~DictionaryTrie(){}
+DictionaryTrie::~DictionaryTrie()
+{
+  
+}

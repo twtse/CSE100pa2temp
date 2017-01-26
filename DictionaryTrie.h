@@ -23,11 +23,9 @@ public:
    * reflects the char c. Then checks if the small node in that index connects
    * to a bigNode.
    */
-  Node getNext(char c); 
+  Node* getNext(char c); 
 
   ~Node();
-  
-private:
   
   /* The container in which each index represents a letter in the alphabet */
   Node* container[26]; //all the letters in the alphabet
@@ -35,7 +33,10 @@ private:
   int frequency;
 
   bool word;
-}
+
+private:
+  
+};
 
 /**
  *  This class represents each indexes inside the array
@@ -93,7 +94,7 @@ public:
   ~DictionaryTrie();
 
 private:
-  Node root;
+  Node* root;
 
 };
 
