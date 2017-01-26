@@ -60,6 +60,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //covers the two false conditions
   if(find(word) == true)
   {
+    std::cout << "Duplicate found" << std::endl;
     return false;
   }
   if(word.length() == 0)
@@ -73,13 +74,16 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //from beginning to end
   for(wordind = 0; wordind < word.length(); wordind++)
   {
-std::cout << word[wordind] << " is the charcter we're looking at. " << std::endl;
+    std::cout << word[wordind] << " is the charcter we're looking at. " <<
+    std::endl;
+    
     //first run we are at root node, which is created in constructor
     //see if there is a nodeptr at our current node's array at index 
     //representing *it
     if(current->getNext( word[wordind] ) == NULL)
     {
-std::cout << "The character doesn't exist yet" << std::endl;
+    std::cout << "The character doesn't exist yet" << std::endl;
+      
       //if there isn't one, make a new node and leave a pointer in the array
       //at that index pointing to our new node
       int index;
@@ -87,18 +91,19 @@ std::cout << "The character doesn't exist yet" << std::endl;
       {
         index = 0;
       }
+      
       else
       {
         index = word[wordind] - OFF_SET_MINUS_ONE;
       }
       current->container[index] = new Node();
       current = current->container[index];
-std::cout << word[wordind] << " is inserted at " << index << std::endl;
+      std::cout << word[wordind] << " is inserted at " << index << std::endl;
     }
     else
     {
       //if that letter already exist, move to it, update current
-std::cout << "CHARACTER EXISTS, TRAVERSE!" << std::endl;
+      std::cout << "CHARACTER EXISTS, TRAVERSE!" << std::endl;
       current = current->getNext(word[wordind]);
     }
   }

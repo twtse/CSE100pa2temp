@@ -18,6 +18,8 @@ bool DictionaryHashtable::insert(std::string word)
 bool DictionaryHashtable::find(std::string word) const
 {
   auto itr = inner.find(word);
+  
+  //Compares iterator element to end iterator
   if(itr == inner.end())
     return false;
   else
