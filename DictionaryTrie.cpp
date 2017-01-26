@@ -155,5 +155,19 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
 /* Destructor */
 DictionaryTrie::~DictionaryTrie()
 {
-  
+  //Calls helper method 
+  deleteNodes(root); 
+}
+
+/*Destructor helper method*/
+void DictionaryTrie::deleteNodes(Node* curr)
+{
+  //recursively deletes all children nodes
+  for(int i=0;i<27;i++){
+    if(curr->container[i]){
+      deleteNodes(curr->container[i]);
+    }
+  }
+  //Deletes itself once all children are deleted
+  delete curr;
 }

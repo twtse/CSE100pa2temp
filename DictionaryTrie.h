@@ -98,6 +98,6 @@ public:
 private:
   Node* root;
 
+  void deleteNodes(Node* curr);
 };
-
 #endif // DICTIONARY_TRIE_H
