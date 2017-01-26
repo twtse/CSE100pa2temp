@@ -32,7 +32,7 @@ public:
   /* The container in which each index represents a letter in the alphabet */
   Node* container[ALPHABET_SPACE]; //all the letters in the alphabet & space
   
-  int frequency;
+  unsigned int frequency; //frequency needs to be unsigned bc no negatives
 
   bool word;
 

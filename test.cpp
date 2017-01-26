@@ -90,7 +90,7 @@ int main(int argc, char** argv)
       cout << "Inserting: \"" << *wit << "\"... ";
       t_bst = d_bst.insert(*wit);
       t_ht = d_ht.insert(*wit);
-      tt = dt.insert(*wit, 0);
+      tt = dt.insert(*wit, 5);
       if(t_bst)
         {
           cout << "failed for DictionaryBST... ";
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
   wit = wordsf.begin();
   wen = wordsf.end(); 
   for(; wit!=wen;wit++){
-    cout << "Inserting: \"" << *wit << "\"... ";
+    cout << "Finding: \"" << *wit << "\"... ";
       t_bst = d_bst.find(*wit);
       t_ht = d_ht.find(*wit);
       tt = dt.find(*wit);
@@ -171,5 +171,8 @@ int main(int argc, char** argv)
         }
       cout << endl;
     }
+
+
+
   return 0;
 }

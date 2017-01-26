@@ -57,11 +57,13 @@ DictionaryTrie::DictionaryTrie()
  * invalid (empty string) */
 bool DictionaryTrie::insert(std::string word, unsigned int freq)
 {
+  bool repeat = false;
+
   //covers the two false conditions
   if(find(word) == true)
   {
-    std::cout << "Duplicate found" << std::endl;
-    return false;
+    //std::cout << "Duplicate found" << std::endl;
+    repeat = true;
   }
   if(word.length() == 0)
   {
@@ -74,15 +76,15 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //from beginning to end
   for(wordind = 0; wordind < word.length(); wordind++)
   {
-    std::cout << word[wordind] << " is the charcter we're looking at. " <<
-    std::endl;
+    //std::cout << word[wordind] << " is the charcter we're looking at. " <<
+    //std::endl;
     
     //first run we are at root node, which is created in constructor
     //see if there is a nodeptr at our current node's array at index 
     //representing *it
     if(current->getNext( word[wordind] ) == NULL)
     {
-    std::cout << "The character doesn't exist yet" << std::endl;
+    //std::cout << "The character doesn't exist yet" << std::endl;
       
       //if there isn't one, make a new node and leave a pointer in the array
       //at that index pointing to our new node
@@ -98,12 +100,12 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
       }
       current->container[index] = new Node();
       current = current->container[index];
-      std::cout << word[wordind] << " is inserted at " << index << std::endl;
+      //std::cout << word[wordind] << " is inserted at " << index << std::endl;
     }
     else
     {
       //if that letter already exist, move to it, update current
-      std::cout << "CHARACTER EXISTS, TRAVERSE!" << std::endl;
+      //std::cout << "CHARACTER EXISTS, TRAVERSE!" << std::endl;
       current = current->getNext(word[wordind]);
     }
   }
@@ -111,9 +113,19 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //at this point, current should be a pointer at the index representing the 
   //last  character. The node current points to should have default 
   //initialization. Mark this as word node
+  
+  if(repeat == true)
+  {
+    if(freq > current->frequency) 
+    {
+      current->frequency = freq;
+      //std::cout << "Frequency changed, now: " << freq << std::endl;
+    }
+    return false;
+  }
+
   current->word = true;
   current->frequency = freq;
-
   return true;
 }
 
@@ -163,7 +175,7 @@ DictionaryTrie::~DictionaryTrie()
 void DictionaryTrie::deleteNodes(Node* curr)
 {
   //recursively deletes all children nodes
-  for(int i=0;i<27;i++){
+  for(int i=0;i<ALPHABET_SPACE;i++){
     if(curr->container[i]){
       deleteNodes(curr->container[i]);
     }
