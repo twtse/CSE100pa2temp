@@ -7,7 +7,7 @@ DictionaryTrie::Node()
 {
   bool word = false;
   int frequency = -1;
-  Node.container = new Node[26]();
+  Node.container = new Node[26]; //Initializes array of Nodes
 }
 
 Node* DictionaryTrie::getNext(char c)
@@ -82,15 +82,34 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   //at this point, current should be a pointer at the index representing the 
   //last  character. The node current points to should have default 
   //initialization. Mark this as word node
-  current->word == true;
+  current->word = true;
   current->frequency = freq;
 
-  return false;
+  return true;
 }
 
 /* Return true if word is in the dictionary, and false otherwise */
 bool DictionaryTrie::find(std::string word) const
 {
+  Node* current = root;
+  string::iterator it;
+
+  //Traverses MWT for every letter in the word
+  for(it = word.begin(); it < str.end(); it++){
+    //Returns false if path is invalid
+    if(!current.getNext(*it)){
+       return false;
+    }
+    //Iterates
+    current = container.container[*it-OFF_SET];
+  }
+  
+  //Returns true if the last letter results in a word node
+  if(current->word == true){
+    return true;
+  }
+
+  //Returns false otherwise
   return false;
 }
 
