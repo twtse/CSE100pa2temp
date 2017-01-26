@@ -16,6 +16,7 @@ int main(int argc, char** argv)
 
   //Initialize words
   vector<std::string> words;
+  vector<std::string> wordsf;
   vector<string>::iterator wit;
   vector<string>::iterator wen;
   //initialize nonwords
@@ -35,6 +36,11 @@ int main(int argc, char** argv)
   words.push_back("crucio");
   words.push_back("autocomplete");
   
+  wordsf.push_back("haarry");
+  wordsf.push_back("srirams");
+  wordsf.push_back("cfe");
+  wordsf.push_back("crucia");
+  wordsf.push_back("aautocomplete");
   
   cout << "Inserting into Dictionaries..." << endl;
 
@@ -65,6 +71,15 @@ int main(int argc, char** argv)
 	}
       cout << endl;
     }
+
+  cout << "Testing empty string input" << endl;
+  bool empty = dt.insert("",1);
+  if(empty){
+    cout << "Incorrectly inserted empty string into DictionaryTrie..." << endl;
+  }
+  else{
+    cout << "PASSED! :D ";
+  }
 
   cout << endl << "Re-inserting elements that were just inserted into Dictionaries..." << endl;
 
@@ -97,8 +112,33 @@ int main(int argc, char** argv)
 
   cout << endl;
 
-  
+    
 /*You are supposed to add more test cases in this file */
-  
+  cout << "Testing for false positives" << endl;
+  wit = wordsf.begin();
+  wen = wordsf.end(); 
+  for(; wit!=wen;wit++){
+    cout << "Inserting: \"" << *wit << "\"... ";
+      t_bst = d_bst.find(*wit);
+      t_ht = d_ht.find(*wit);
+      tt = dt.find(*wit);
+      if(t_bst)
+        {
+          cout << "failed for DictionaryBST... ";
+        }
+      if(t_ht)
+        {
+          cout << "failed for DictionaryHashset... ";
+        }
+      if(tt)
+        {
+          cout << "failed for DictionaryTrie... ";
+        }
+      if(!t_bst && !t_ht && !tt)
+        {
+          cout << "PASSED! :D ";
+        }
+      cout <<endl;
+   }   
   return 0;
 }
