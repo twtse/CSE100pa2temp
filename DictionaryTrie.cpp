@@ -6,6 +6,7 @@
 
 #define OFF_SET_MINUS_ONE 96
 #define ALPHABET_SPACE 27
+
 Node::Node()
 {
   this->word = false;
@@ -148,6 +149,44 @@ bool DictionaryTrie::find(std::string word) const
     return false;
 }
 
+/**
+ * Name: prefixFind
+ * Description: Helper method that is similar to Find. Searches through to find
+ *              where the program should start to use DFS to find all possible
+ *              words.
+ * Return: Node pointer to the node where we begin DFS
+ *
+ */
+Node * DictionaryTrie::prefixFind(std::string prefix)
+{
+  Node* current = root;
+  for(int i = 0; i < prefix.length(); i++)
+  {
+    if(current->getNext(prefix[i])== NULL)
+    {
+      return nullptr; /*-------------------------------------------MAY NEED FIX */
+    }
+    else
+      current = current->getNext(prefix[i]);
+  }
+  
+  //copy pasta'd the find method except instead of returning T/F, we returned 
+  //NULL if it was never found (and will error handle in autocomplete) or the
+  //a pointer pointing to the node of the last character in the prefix
+  return current;
+}
+
+/**
+ * Name: 
+ * Description: Recursive method to search through the tree and then pair up
+ *              the string with its frequency. Store the pair into a data
+ *              strucutre.
+ */
+void DictionaryTrie::search(Node* start, std::string word, std::priorityQueue* placeholder)
+{
+  
+}
+ 
 /* Return up to num_completions of the most frequent completions
  * of the prefix, such that the completions are words in the dictionary.
  * These completions should be listed from most frequent to least.
@@ -161,6 +200,34 @@ bool DictionaryTrie::find(std::string word) const
 std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, unsigned int num_completions)
 {
   std::vector<std::string> words;
+  
+  bool error = false;
+  if(prefix.length() == 0)
+  {
+    error = true;
+  }
+  else
+  {
+    for(int i = 0; i < prefix.length(); i++)
+    {
+      if( prefix[i] < 97 || prefix[i] > 122 || prefix[i] != 32)
+      {
+        error = true;
+      }
+    }  
+  }
+  if(error == true)
+  {
+    (void)fprintf(stderr, "Invalid Input. Please retry with correct input.\n");
+    return words; //SHOULD BE EMPTY, NEVER INITIALIZED 
+  }
+  
+  Node* start = prefixFind(prefix);
+  if(start == NULL) //prefix not found in dic
+  {
+    return words; //empty vector :(
+  }
+
   return words;
 }
 
