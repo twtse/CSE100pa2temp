@@ -3,6 +3,8 @@
 #include "string"
 #include <iostream>
 #include <cstdlib>
+#include <set>
+#include <utility>
 
 #define OFF_SET_MINUS_ONE 96
 #define ALPHABET_SPACE 27
@@ -182,8 +184,41 @@ Node * DictionaryTrie::prefixFind(std::string prefix)
  *              the string with its frequency. Store the pair into a data
  *              strucutre.
  */
-void DictionaryTrie::search(Node* start, std::string word, std::priorityQueue* placeholder)
+void DictionaryTrie::search(Node* start, std::string input, 
+                            std::set< std::pair<unsigned int, std::string> > & placeholder)
 {
+  for(int i = 0; i < ALPHABET_SPACE; i++)
+  {
+    if(start->container[i] != NULL)
+    {
+      std::string added = input;
+      char ascii;
+      if(i==0)
+      {
+        ascii=' ';
+      }
+      else
+      {
+        ascii='`'+i;
+      }
+      //std::string temp = std::to_string(i + OFF_SET_MINUS_ONE); 
+      //using offset to convert index to char
+      added.append(&ascii);
+    
+      //we use a different string and not passing input everytime because the for loop can append
+      //many chars to input word depending on which iteration we're on
+      search(start->container[i], added, placeholder);
+    }
+  }
+  
+  //if the word is flipped, that means the input thats passed in is already a word
+  if(start->word == true)
+  {
+    std::pair <unsigned int,std::string> combo;
+    combo = std::make_pair(start->frequency, input);
+    printf("%s",input);
+    placeholder.insert(combo);
+  }
   
 }
  
@@ -205,13 +240,15 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
   if(prefix.length() == 0)
   {
     error = true;
+    printf("Length is zero\n");
   }
   else
   {
     for(int i = 0; i < prefix.length(); i++)
     {
-      if( prefix[i] < 97 || prefix[i] > 122 || prefix[i] != 32)
+      if( (prefix[i] < 97 || prefix[i] > 122) && prefix[i] != 32)
       {
+        printf("Invalid character\n");
         error = true;
       }
     }  
@@ -222,12 +259,37 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
     return words; //SHOULD BE EMPTY, NEVER INITIALIZED 
   }
   
-  Node* start = prefixFind(prefix);
+  Node* start = DictionaryTrie::prefixFind(prefix);
+  
+  /* Potential Edge Case: prefix not in dictionary */
   if(start == NULL) //prefix not found in dic
   {
-    return words; //empty vector :(
+    return words; //empty vector 
   }
-
+  
+  //make a set of pairs to store the words and call DFS on all its children
+  std::set<std::pair<unsigned int, std::string>> placeholder;
+  DictionaryTrie::search(start, prefix, placeholder);
+  
+  /* Edge Case: No possible completions */
+  if(placeholder.size() == 0)
+  {
+    return words; //empty vector
+  }
+  
+  //now placeholder should hold all the possible words, sorted automatically by
+  //the unsigned int frequency, so we should take the first num_completion of words
+  std::set<std::pair<unsigned int, std::string>>::iterator it = placeholder.begin();
+  std::string desired;
+  
+  for(unsigned int j = 0; j < num_completions; j++)
+  {
+    desired = (*it).second;
+    printf("%s\n",desired);
+    words.push_back(desired);
+    it++;
+  }
+  
   return words;
 }
 

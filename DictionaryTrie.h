@@ -6,8 +6,11 @@
 #ifndef DICTIONARY_TRIE_H
 #define DICTIONARY_TRIE_H
 
+#include <utility>
+#include <set>
 #include <vector>
 #include <string>
+#include <iostream>
 
 #define ALPHABET_SPACE 27
 
@@ -99,5 +102,12 @@ private:
   Node* root;
 
   void deleteNodes(Node* curr);
+  
+  Node * prefixFind(std::string prefix);
+  
+  void search(Node* start, std::string input,
+              std::set<std::pair<unsigned int, std::string>> & placeholder);
+  
+  
 };
 #endif // DICTIONARY_TRIE_H
