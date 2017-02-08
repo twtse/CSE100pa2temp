@@ -166,7 +166,8 @@ Node * DictionaryTrie::prefixFind(std::string prefix)
   {
     if(current->getNext(prefix[i])== NULL)
     {
-      return nullptr; /*-------------------------------------------MAY NEED FIX */
+      Node * returned = nullptr;
+      return returned; /*-------------------------------------------MAY NEED FIX */
     }
     else
       current = current->getNext(prefix[i]);
@@ -200,11 +201,11 @@ void DictionaryTrie::search(Node* start, std::string input,
       else
       {
         ascii=(i+OFF_SET_MINUS_ONE);
+
       }
       //std::string temp = std::to_string(i + OFF_SET_MINUS_ONE); 
       //using offset to convert index to char
-      added.append(&ascii);
-    
+      added += ascii;   
       //we use a different string and not passing input everytime because the for loop can append
       //many chars to input word depending on which iteration we're on
       search(start->container[i], added, placeholder);
@@ -278,15 +279,15 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
   
   //now placeholder should hold all the possible words, sorted automatically by
   //the unsigned int frequency, so we should take the first num_completion of words
-  std::set<std::pair<unsigned int, std::string>>::iterator it = placeholder.begin();
+  std::set<std::pair<unsigned int, std::string>>::iterator it = placeholder.end();
+  it--;
   std::string desired;
   
   for(unsigned int j = 0; j < num_completions; j++)
   {
     desired = (*it).second;
-    printf("%s\n",desired);
     words.push_back(desired);
-    it++;
+    it--;
   }
   
   return words;
