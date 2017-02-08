@@ -199,7 +199,7 @@ void DictionaryTrie::search(Node* start, std::string input,
       }
       else
       {
-        ascii='`'+i;
+        ascii=(i+OFF_SET_MINUS_ONE);
       }
       //std::string temp = std::to_string(i + OFF_SET_MINUS_ONE); 
       //using offset to convert index to char
@@ -216,7 +216,6 @@ void DictionaryTrie::search(Node* start, std::string input,
   {
     std::pair <unsigned int,std::string> combo;
     combo = std::make_pair(start->frequency, input);
-    printf("%s",input);
     placeholder.insert(combo);
   }
   
