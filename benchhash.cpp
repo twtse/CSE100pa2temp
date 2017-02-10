@@ -17,8 +17,16 @@ int main(int argc, char** argv){
     int nNumbers=std::stoi(argv[2]);
     
     //Initializes hash arrays
-    int hash1[2*nNumbers]={0};
-    int hash2[2*nNumbers]={0};
+    int hash1[2*nNumbers];
+    for(int a = 0; a < 2*nNumbers; a++)
+    {
+      hash1[a] = 0;
+    }
+    int hash2[2*nNumbers];
+    for(int a = 0; a < 2*nNumbers; a++)
+    {
+      hash2[a] = 0;
+    }
     
     //Berenstein Hash
     for(int i=0; i<nNumbers; i++){
@@ -63,9 +71,16 @@ int main(int argc, char** argv){
 
 
     //Create arrays to store results
-    int results1[firstMax+1]={0};
-    int results2[secondMax+1]={0};
-    
+    int results1[firstMax+1];
+    int results2[secondMax+1];
+    for(int a = 0; a < firstMax + 1; a++)
+    {
+      results1[a] = 0;
+    }
+    for(int a = 0; a < secondMax + 1; a++)
+    {
+      results2[a] = 0;
+    }
     //Stores results into array
     for(int i=0; i<(2*nNumbers) ; i++) 
     {
