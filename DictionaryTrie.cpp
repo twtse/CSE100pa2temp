@@ -27,10 +27,13 @@ Node* Node::getNext(char c)
   {
     index = 0;
   }
-  else
+  else if (c>='a'||c<='z')
   {
     index = c - OFF_SET_MINUS_ONE; //96 is the offset bc saving 0 for space
   }
+  else{
+    return NULL;
+    }
 
   Node* current = this->container[index];
 
